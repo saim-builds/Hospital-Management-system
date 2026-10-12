@@ -19,6 +19,10 @@ export default function Dashboard() {
                         <Link to="/admin" className={ghostBtn}>Staff and users</Link>
                     </>
                 )}
+                <Link to="/appointments" className={ghostBtn}>Appointments</Link>
+                {(user.role === "patient" || user.role === "receptionist") && (
+                    <Link to="/appointments/new" className={ghostBtn}>Book appointment</Link>
+                )}
                 <button onClick={logout} className={primaryBtn}>Log out</button>
             </div>
         </main>
