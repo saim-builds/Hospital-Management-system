@@ -2,15 +2,23 @@ import User from "../models/User.js";
 import { COOKIE, verifyToken } from "../utils/token.js";
 
 export async function protect(req, res, next) {
+    const where = `${req.method} ${req.originalUrl}`;
     const token = req.cookies?.[COOKIE];
-    if (!token) return res.status(401).json({ message: "Please log in" });
+    if (!token) {
+        console.warn("protect: no login cookie on", where);
+        return res.status(401).json({ message: "Please log in" });
+    }
     try {
         const payload = verifyToken(token);
         const user = await User.findById(payload.sub);
-        if (!user || !user.isActive) return res.status(401).json({ message: "Please log in" });
+        if (!user || !user.isActive) {
+            console.warn("protect: account missing or inactive on", where);
+            return res.status(401).json({ message: "Please log in" });
+        }
         req.user = user;
         next();
-    } catch {
+    } catch (err) {
+        console.warn("protect: login cookie rejected on", where, "-", err.name);
         res.status(401).json({ message: "Please log in" });
     }
 }

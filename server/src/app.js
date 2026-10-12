@@ -5,9 +5,10 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
+import departmentRoutes from "./routes/departments.js";
+import doctorRoutes from "./routes/doctors.js";
 
 const app = express();
-
 app.use(helmet());
 app.use(
   cors({
@@ -27,6 +28,8 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/departments", departmentRoutes);
+app.use("/api/doctors", doctorRoutes);
 
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
 

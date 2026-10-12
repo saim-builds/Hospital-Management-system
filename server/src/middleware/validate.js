@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export const validate = (schema) => (req, res, next) => {
     const result = schema.safeParse(req.body);
     if (!result.success) {
@@ -6,3 +8,6 @@ export const validate = (schema) => (req, res, next) => {
     req.body = result.data;
     next();
 };
+
+export const validId = (req, res, next) =>
+    mongoose.isValidObjectId(req.params.id) ? next() : res.status(400).json({ message: "Invalid id" });
