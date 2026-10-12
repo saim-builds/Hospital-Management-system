@@ -1,35 +1,22 @@
-import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthPage from "./pages/AuthPage";
+import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
 
 export default function App() {
-  const [health, setHealth] = useState(null);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/health")
-      .then((res) => {
-        if (!res.ok) throw new Error("Server error");
-        return res.json();
-      })
-      .then(setHealth)
-      .catch(() => setError("Cannot reach the API. Is the server running?"));
-  }, []);
-
   return (
-    <main className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="text-3xl font-extrabold">Medora</h1>
-      <p className="mt-2 text-muted">Hospital management system</p>
-
-      <div className="mt-8 rounded-2xl border border-line bg-white p-6">
-        <h2 className="font-bold">System check</h2>
-        {error && <p className="mt-3 text-red-700">{error}</p>}
-        {!error && !health && <p className="mt-3 text-muted">Checking...</p>}
-        {health && (
-          <ul className="mt-3 space-y-1 text-sm">
-            <li>API: <b>{health.status}</b></li>
-            <li>Database: <b>{health.database}</b></li>
-          </ul>
-        )}
-      </div>
-    </main>
+    <Routes>
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/login" element={<AuthPage mode="login" />} />
+      <Route path="/register" element={<AuthPage mode="register" />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute roles={["admin"]} />}>
+        <Route path="/admin" element={<Admin />} />
+      </Route>
+      <Route path="*" element={<p className="p-8">Page not found</p>} />
+    </Routes>
   );
 }
