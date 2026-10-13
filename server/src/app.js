@@ -9,6 +9,7 @@ import departmentRoutes from "./routes/departments.js";
 import doctorRoutes from "./routes/doctors.js";
 import appointmentRoutes from "./routes/appointments.js";
 import patientRoutes from "./routes/patients.js";
+import recordRoutes from "./routes/records.js";
 
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/patients", patientRoutes);
+app.use("/api/records", recordRoutes);
 
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
 

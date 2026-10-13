@@ -58,7 +58,9 @@ export default function Appointments() {
                 <div className="font-bold">{niceDate(a.date)}, {a.time}</div>
                 <div className="mt-1">
                     {user.role !== "doctor" && <>Dr. {a.doctor?.name}, {a.doctor?.specialty} ({a.doctor?.department})<br /></>}
-                    {user.role !== "patient" && <>Patient: {a.patient?.name}<br /></>}
+                    {user.role !== "patient" && (
+                        <>Patient: <Link to={`/patients/${a.patient?.id}`} className="font-bold text-primary underline">{a.patient?.name}</Link><br /></>
+                    )}
                     {a.reason && <span className="text-muted">Reason: {a.reason}</span>}
                 </div>
             </div>

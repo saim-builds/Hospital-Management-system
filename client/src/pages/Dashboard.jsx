@@ -23,6 +23,8 @@ export default function Dashboard() {
                 {(user.role === "patient" || user.role === "receptionist") && (
                     <Link to="/appointments/new" className={ghostBtn}>Book appointment</Link>
                 )}
+                {user.role === "patient" && <Link to={`/patients/${user.id}`} className={ghostBtn}>My record</Link>}
+                {(user.role === "receptionist" || user.role === "admin") && <Link to="/patients" className={ghostBtn}>Patients</Link>}
                 <button onClick={logout} className={primaryBtn}>Log out</button>
             </div>
         </main>
