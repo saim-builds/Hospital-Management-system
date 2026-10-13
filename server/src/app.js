@@ -10,6 +10,9 @@ import doctorRoutes from "./routes/doctors.js";
 import appointmentRoutes from "./routes/appointments.js";
 import patientRoutes from "./routes/patients.js";
 import recordRoutes from "./routes/records.js";
+import visitRoutes from "./routes/visits.js";
+import dashboardRoutes from "./routes/dashboard.js";
+
 
 
 const app = express();
@@ -37,6 +40,8 @@ app.use("/api/doctors", doctorRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/records", recordRoutes);
+app.use("/api/visits", visitRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
 

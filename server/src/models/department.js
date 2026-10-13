@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const departmentSchema = new mongoose.Schema(
@@ -10,6 +11,13 @@ const departmentSchema = new mongoose.Schema(
 );
 
 // Names are unique regardless of upper or lower case
-departmentSchema.index({ name: 1 }, { unique: true, collation: { locale: "en", strength: 2 } });
+departmentSchema.index(
+    { name: 1 },
+    { unique: true, collation: { locale: "en", strength: 2 } }
+);
 
-export default mongoose.model("Department", departmentSchema);
+const Department =
+    mongoose.models.Department ||
+    mongoose.model("Department", departmentSchema);
+
+export default Department;

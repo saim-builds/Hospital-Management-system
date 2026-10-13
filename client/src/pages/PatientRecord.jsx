@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import api from "../api";
 import { useAuth } from "../context/AuthContext";
 import { inputCls, primaryBtn, ghostBtn } from "../ui";
+import VisitHistory from "../components/VisitHistory";
 
 const BLOOD = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 const EMPTY = { dateOfBirth: "", gender: "", bloodGroup: "", phone: "", allergies: "" };
@@ -167,10 +168,7 @@ export default function PatientRecord() {
                 <p className="mt-6 text-sm text-muted">This patient has not completed their profile yet.</p>
             )}
 
-            <section className="mt-6 rounded-2xl border border-line bg-white p-6">
-                <h2 className="font-bold">Visits and prescriptions</h2>
-                <p className="mt-2 text-sm text-muted">Consultation notes and prescriptions will appear here after part 2.</p>
-            </section>
+            <VisitHistory patientId={id} />
         </main>
     );
 }
