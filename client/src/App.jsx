@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppShell from "./components/AppShell";
 import AuthPage from "./pages/AuthPage";
@@ -14,11 +14,13 @@ import Consultation from "./pages/Consultation";
 import Billing from "./pages/Billing";
 import Invoice from "./pages/Invoice";
 import NewInvoice from "./pages/NewInvoice";
+import Landing from "./pages/Landing";
+
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={<AuthPage mode="login" />} />
       <Route path="/register" element={<AuthPage mode="register" />} />
 

@@ -13,7 +13,7 @@ import recordRoutes from "./routes/records.js";
 import visitRoutes from "./routes/visits.js";
 import dashboardRoutes from "./routes/dashboard.js";
 import billingRoutes from "./routes/billing.js";
-
+import publicRoutes from "./routes/public.js";
 
 
 
@@ -45,6 +45,7 @@ app.use("/api/records", recordRoutes);
 app.use("/api/visits", visitRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/billing", billingRoutes);
+app.use("/api/public", publicRoutes);
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
 
 // Error handler: never leak internal details to the client
