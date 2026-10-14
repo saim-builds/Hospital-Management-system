@@ -69,6 +69,9 @@ export default function Appointments() {
                 {a.status === "booked" && canCancel && a.date >= today && (
                     <button onClick={() => act(a.id, "cancel")} className="font-bold text-red-700">Cancel</button>
                 )}
+                {a.status === "completed" && (user.role === "receptionist" || user.role === "admin") && (
+                    <Link to={`/billing/new/${a.id}`} className="font-bold text-primary">Invoice</Link>
+                )}
                 {user.role === "doctor" && a.status !== "cancelled" && a.date <= today && (
                     <Link to={`/consultations/${a.id}`} className="font-bold text-primary">
                         {a.status === "completed" ? "View or edit consultation" : "Open consultation"}

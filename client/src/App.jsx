@@ -11,6 +11,9 @@ import BookAppointment from "./pages/BookAppointment";
 import Patients from "./pages/Patients";
 import PatientRecord from "./pages/PatientRecord";
 import Consultation from "./pages/Consultation";
+import Billing from "./pages/Billing";
+import Invoice from "./pages/Invoice";
+import NewInvoice from "./pages/NewInvoice";
 
 export default function App() {
   return (
@@ -31,6 +34,7 @@ export default function App() {
             <Route path="/departments" element={<Departments />} />
           </Route>
           <Route element={<ProtectedRoute roles={["receptionist", "admin"]} />}>
+          <Route path="/billing/new/:appointmentId" element={<NewInvoice />} />
             <Route path="/patients" element={<Patients />} />
           </Route>
           <Route element={<ProtectedRoute roles={["patient", "receptionist"]} />}>
@@ -41,7 +45,10 @@ export default function App() {
           </Route>
         </Route>
       </Route>
-
+      <Route element={<ProtectedRoute roles={["patient", "receptionist", "admin"]} />}>
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/billing/:id" element={<Invoice />} />
+      </Route>
       <Route path="*" element={<p className="p-8">Page not found</p>} />
     </Routes>
   );

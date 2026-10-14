@@ -16,3 +16,11 @@ body {
   background: var(--color-surface);
   color: var(--color-ink);
 }
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}

@@ -13,6 +13,7 @@ const ICONS = {
     file: "M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6",
     menu: "M4 7h16M4 12h16M4 17h16",
     close: "M6 6l12 12M18 6L6 18",
+    receipt: "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6",
 };
 
 function Icon({ name, size = 18 }) {
@@ -35,6 +36,8 @@ function navFor(user) {
     if (user.role === "patient") {
         items.push({ to: `/patients/${user.id}`, label: "My record", icon: "file" });
     }
+    if (user.role !== "doctor")
+        items.push({ to: "/billing", label: "Billing", icon: "receipt" });
     items.push({ to: "/doctors", label: "Doctors", icon: "doctor" });
     if (user.role === "admin") {
         items.push({ to: "/departments", label: "Departments", icon: "building" });
@@ -65,7 +68,7 @@ export default function AppShell() {
 
     return (
         <div className="flex min-h-screen bg-surface">
-            <aside className="hidden w-64 shrink-0 flex-col border-r border-line bg-white p-4 md:flex">
+            <aside className="no-print hidden w-64 shrink-0 flex-col border-r border-line bg-white p-4 md:flex">
                 <div className="px-2 pb-6 pt-2">{logo}</div>
                 <nav className="flex flex-col gap-1" aria-label="Main">
                     {items.map((i) => (
@@ -77,7 +80,7 @@ export default function AppShell() {
             </aside>
 
             <div className="flex min-w-0 flex-1 flex-col">
-                <header className="flex items-center justify-between gap-3 border-b border-line bg-white px-4 py-3">
+                <header className="no-print flex items-center justify-between gap-3 border-b border-line bg-white px-4 py-3">
                     <button
                         onClick={() => setOpenFor(open ? null : location.pathname)}
                         aria-label={open ? "Close menu" : "Open menu"}
@@ -99,7 +102,7 @@ export default function AppShell() {
                 </header>
 
                 {open && (
-                    <nav className="border-b border-line bg-white p-3 md:hidden" aria-label="Mobile">
+                    <nav className="no-print border-b border-line bg-white p-3 md:hidden" aria-label="Mobile">
                         {items.map((i) => (
                             <NavLink key={i.to} to={i.to} end={i.end} className={linkClass}>
                                 <Icon name={i.icon} /> {i.label}
