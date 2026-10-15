@@ -1,6 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppShell from "./components/AppShell";
+import StaffLoginModal from "./components/StaffLoginModal";
+import Landing from "./pages/Landing";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
@@ -14,44 +16,47 @@ import Consultation from "./pages/Consultation";
 import Billing from "./pages/Billing";
 import Invoice from "./pages/Invoice";
 import NewInvoice from "./pages/NewInvoice";
-import Landing from "./pages/Landing";
-
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<AuthPage mode="login" />} />
-      <Route path="/register" element={<AuthPage mode="register" />} />
+    <>
+      <StaffLoginModal />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<AuthPage mode="login" />} />
+        <Route path="/register" element={<AuthPage mode="register" />} />
+        <Route path="/staff-login" element={<AuthPage mode="staff" />} />
 
-      <Route element={<ProtectedRoute />}>
-        <Route element={<AppShell />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/doctors" element={<Doctors />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/patients/:id" element={<PatientRecord />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppShell />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/doctors" element={<Doctors />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/patients/:id" element={<PatientRecord />} />
 
-          <Route element={<ProtectedRoute roles={["admin"]} />}>
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/departments" element={<Departments />} />
-          </Route>
-          <Route element={<ProtectedRoute roles={["receptionist", "admin"]} />}>
-          <Route path="/billing/new/:appointmentId" element={<NewInvoice />} />
-            <Route path="/patients" element={<Patients />} />
-          </Route>
-          <Route element={<ProtectedRoute roles={["patient", "receptionist"]} />}>
-            <Route path="/appointments/new" element={<BookAppointment />} />
-          </Route>
-          <Route element={<ProtectedRoute roles={["doctor"]} />}>
-            <Route path="/consultations/:appointmentId" element={<Consultation />} />
+            <Route element={<ProtectedRoute roles={["admin"]} />}>
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/departments" element={<Departments />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={["receptionist", "admin"]} />}>
+              <Route path="/patients" element={<Patients />} />
+              <Route path="/billing/new/:appointmentId" element={<NewInvoice />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={["patient", "receptionist"]} />}>
+              <Route path="/appointments/new" element={<BookAppointment />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={["patient", "receptionist", "admin"]} />}>
+              <Route path="/billing" element={<Billing />} />
+              <Route path="/billing/:id" element={<Invoice />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={["doctor"]} />}>
+              <Route path="/consultations/:appointmentId" element={<Consultation />} />
+            </Route>
           </Route>
         </Route>
-      </Route>
-      <Route element={<ProtectedRoute roles={["patient", "receptionist", "admin"]} />}>
-        <Route path="/billing" element={<Billing />} />
-        <Route path="/billing/:id" element={<Invoice />} />
-      </Route>
-      <Route path="*" element={<p className="p-8">Page not found</p>} />
-    </Routes>
+
+        <Route path="*" element={<p className="p-8">Page not found</p>} />
+      </Routes>
+    </>
   );
 }

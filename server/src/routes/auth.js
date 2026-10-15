@@ -16,7 +16,8 @@ const limiter = (windowMs, limit, message) =>
     rateLimit({ windowMs, limit, standardHeaders: "draft-7", legacyHeaders: false, message: { message } });
 const loginLimiter = limiter(15 * 60 * 1000, 10, "Too many attempts. Try again in a few minutes.");
 const registerLimiter = limiter(60 * 60 * 1000, 20, "Too many sign-ups from this address. Try again later.");
-
+const staffLoginLimiter = limiter(15 * 60 * 1000, 10, "Too many attempts. Try again in a few minutes.");
+const STAFF_ROLES = ["admin", "receptionist"];
 const email = z.string().trim().toLowerCase().email("Enter a valid email address");
 const password = z.string().min(8, "Password must be at least 8 characters").max(72, "Password is too long");
 
@@ -47,7 +48,19 @@ router.post("/login", loginLimiter, validate(loginSchema), async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select("+passwordHash");
     const ok = await bcrypt.compare(password, user ? user.passwordHash : DUMMY_HASH);
-    if (!user || !user.isActive || !ok) {
+    // Admins and receptionists can only sign in through the staff form
+    if (!user || !user.isActive || !ok || STAFF_ROLES.includes(user.role)) {
+        return res.status(401).json({ message: "Invalid email or password" });
+    }
+    setAuthCookie(res, user._id);
+    res.json({ user: user.toSafeJSON() });
+});
+
+router.post("/staff-login", staffLoginLimiter, validate(loginSchema), async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).select("+passwordHash");
+    const ok = await bcrypt.compare(password, user ? user.passwordHash : DUMMY_HASH);
+    if (!user || !user.isActive || !ok || !STAFF_ROLES.includes(user.role)) {
         return res.status(401).json({ message: "Invalid email or password" });
     }
     setAuthCookie(res, user._id);

@@ -6,6 +6,8 @@ import { SITE } from "../site";
 
 const PATHS = {
     cross: "M12 5v14M5 12h14",
+    menu: "M4 7h16M4 12h16M4 17h16",
+    close: "M6 6l12 12M18 6L6 18",
     check: "M5 13l4 4L19 7",
     calendar: "M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z",
     file: "M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6",
@@ -44,6 +46,7 @@ const initials = (name) => name.split(" ").filter(Boolean).slice(0, 2).map((w) =
 export default function Landing() {
     const { user } = useAuth();
     const [overview, setOverview] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         api
@@ -76,7 +79,16 @@ export default function Landing() {
                         <a href="#how" className="hover:text-primary">How it works</a>
                         <a href="#contact" className="hover:text-primary">Contact</a>
                     </nav>
-                    <div className="flex gap-3">
+                    <button
+                        type="button"
+                        onClick={() => setMenuOpen((open) => !open)}
+                        aria-label={menuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={menuOpen}
+                        className="flex h-11 w-11 items-center justify-center rounded-xl border border-line md:hidden"
+                    >
+                        <Icon name={menuOpen ? "close" : "menu"} size={21} />
+                    </button>
+                    <div className="hidden gap-3 md:flex">
                         {user ? (
                             <Link to="/dashboard" className={primary}>Go to dashboard</Link>
                         ) : (
@@ -87,6 +99,26 @@ export default function Landing() {
                         )}
                     </div>
                 </div>
+                {menuOpen && (
+                    <div className="border-t border-line bg-white px-6 py-4 md:hidden">
+                        <nav className="flex flex-col gap-1 text-sm font-semibold" aria-label="Mobile sections">
+                            <a href="#services" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-3 hover:bg-surface">Services</a>
+                            <a href="#doctors" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-3 hover:bg-surface">Doctors</a>
+                            <a href="#how" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-3 hover:bg-surface">How it works</a>
+                            <a href="#contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-3 hover:bg-surface">Contact</a>
+                        </nav>
+                        <div className="mt-3 flex flex-col gap-3 border-t border-line pt-4">
+                            {user ? (
+                                <Link to="/dashboard" className={primary}>Go to dashboard</Link>
+                            ) : (
+                                <>
+                                    <Link to="/login" className={ghost}>Patient portal</Link>
+                                    <Link to="/appointments/new" className={primary}>Book appointment</Link>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
             </header>
 
             <main id="top">

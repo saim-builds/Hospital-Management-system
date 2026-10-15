@@ -16,10 +16,14 @@ export function AuthProvider({ children }) {
             .finally(() => setLoading(false));
     }, []);
 
-  
+
 
     const login = async (email, password) => {
         const res = await api.post("/auth/login", { email, password });
+        setUser(res.data.user);
+    };
+    const staffLogin = async (email, password) => {
+        const res = await api.post("/auth/staff-login", { email, password });
         setUser(res.data.user);
     };
     const register = async (name, email, password) => {
@@ -32,7 +36,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, staffLogin, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

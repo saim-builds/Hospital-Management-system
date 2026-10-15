@@ -4,9 +4,16 @@ import { useAuth } from "../context/AuthContext";
 
 const input = "mt-2 w-full rounded-xl border border-[#C5D6DD] bg-white px-4 py-3 text-sm";
 
+const COPY = {
+    login: { title: "Log in", text: "Welcome back to Medora.", button: "Log in" },
+    register: { title: "Create your account", text: "Patients can book appointments and see their records.", button: "Sign up" },
+    staff: { title: "Staff sign in", text: "For hospital administrators and receptionists.", button: "Sign in" },
+};
+
 export default function AuthPage({ mode }) {
     const isRegister = mode === "register";
-    const { login, register } = useAuth();
+    const copy = COPY[mode];
+    const { login, staffLogin, register } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
@@ -25,6 +32,7 @@ export default function AuthPage({ mode }) {
         setBusy(true);
         try {
             if (isRegister) await register(form.name, form.email, form.password);
+            else if (mode === "staff") await staffLogin(form.email, form.password);
             else await login(form.email, form.password);
             navigate(location.state?.from || "/dashboard", { replace: true });
         } catch (err) {
@@ -37,10 +45,8 @@ export default function AuthPage({ mode }) {
     return (
         <main className="mx-auto max-w-md px-6 py-16">
             <div className="rounded-2xl border border-line bg-white p-8">
-                <h1 className="text-2xl font-extrabold">{isRegister ? "Create your account" : "Log in"}</h1>
-                <p className="mt-2 text-sm text-muted">
-                    {isRegister ? "Patients can book appointments and see their records." : "Welcome back to Medora."}
-                </p>
+                <h1 className="text-2xl font-extrabold">{copy.title}</h1>
+                <p className="mt-2 text-sm text-muted">{copy.text}</p>
                 {error && <p className="mt-4 text-sm text-red-700">{error}</p>}
 
                 <form onSubmit={submit} className="mt-6 space-y-4">
@@ -75,17 +81,19 @@ export default function AuthPage({ mode }) {
                         disabled={busy}
                         className="w-full rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary-dark disabled:opacity-60"
                     >
-                        {busy ? "Please wait..." : isRegister ? "Sign up" : "Log in"}
+                        {busy ? "Please wait..." : copy.button}
                     </button>
                 </form>
 
-                <p className="mt-6 text-center text-sm text-muted">
-                    {isRegister ? (
-                        <>Already have an account? <Link to="/login" className="font-bold text-primary">Log in</Link></>
-                    ) : (
-                        <>New patient? <Link to="/register" className="font-bold text-primary">Create an account</Link></>
-                    )}
-                </p>
+                {mode !== "staff" && (
+                    <p className="mt-6 text-center text-sm text-muted">
+                        {isRegister ? (
+                            <>Already have an account? <Link to="/login" className="font-bold text-primary">Log in</Link></>
+                        ) : (
+                            <>New patient? <Link to="/register" className="font-bold text-primary">Create an account</Link></>
+                        )}
+                    </p>
+                )}
             </div>
         </main>
     );
