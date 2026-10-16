@@ -162,9 +162,9 @@ export default function Landing() {
     const wa = digits(SITE.whatsapp).replace("+", "");
 
     return (
-        <div className="bg-[#E9E3FB] text-ink">
-            <div className="mx-auto max-w-[1180px] p-3 sm:p-6" id="top">
-                <div className="rounded-[28px] bg-white px-4 pb-6 pt-4 shadow-[0_20px_60px_rgba(26,18,64,.12)] sm:px-6">
+        <div className="bg-white text-ink">
+            <div id="top">
+                <div className="w-full px-4 pb-6 pt-4 sm:px-8 lg:px-14 2xl:px-20">
                     {/* Navbar */}
                     <header className="relative">
                         <div className="flex items-center justify-between px-1 py-2">
@@ -180,7 +180,7 @@ export default function Landing() {
                                     <Link to="/dashboard" className={primary}>Go to dashboard</Link>
                                 ) : (
                                     <>
-                                        <Link to="/login" className={`${ghost} hidden sm:inline-flex`}>Patient portal</Link>
+                                        <Link to="/login" className={`${ghost} max-sm:hidden sm:inline-flex`}>Patient portal</Link>
                                         <Link to="/appointments/new" className={primary}>Book appointment</Link>
                                     </>
                                 )}
@@ -219,7 +219,7 @@ export default function Landing() {
                             <a href="#doctors" className={ghost}>Find your doctor</a>
                         </div>
 
-                        <div className="relative mt-12 grid gap-4 text-left md:grid-cols-3 md:items-end">
+                        <div className="relative mt-12 grid gap-4 text-left md:grid-cols-2 md:items-end lg:grid-cols-3">
                             <div className="rounded-2xl border border-line bg-white p-5 shadow-[0_10px_30px_rgba(26,18,64,.07)]">
                                 <div className="flex items-start justify-between">
                                     <h2 className="text-base font-bold">Our doctors</h2>
@@ -287,7 +287,7 @@ export default function Landing() {
                         </section>
 
                         {/* Doctors */}
-                        <section id="doctors" className="-mx-4 mt-20 scroll-mt-6 bg-tint px-4 pb-12 pt-14 text-center sm:-mx-6 sm:px-6">
+                        <section id="doctors" className="-mx-4 mt-20 scroll-mt-6 bg-tint px-4 pb-12 pt-14 text-center sm:-mx-8 sm:px-8 lg:-mx-14 lg:px-14 2xl:-mx-20 2xl:px-20">
                             <span className={pill}>Specialists</span>
                             <h2 className="mt-4 text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">Meet our doctors</h2>
                             <p className="mx-auto mt-3 max-w-xl text-muted">Choose a department, pick a doctor and book a free time slot.</p>
@@ -320,12 +320,12 @@ export default function Landing() {
                                 {doctors.map((d, i) => (
                                     <article key={d.name + i} className="rounded-2xl border border-line bg-white p-3">
                                         {d.photo ? (
-                                            <img src={d.photo} alt={d.name} loading="lazy" className="h-44 w-full rounded-xl object-cover object-top" />
+                                            <img src={d.photo} alt={d.name} loading="lazy" className="block aspect-[4/3] h-auto w-full max-w-full rounded-xl object-cover object-top" />
                                         ) : (
-                                            <DoctorAvatar name={d.name} className="h-44 w-full rounded-xl" />
+                                            <DoctorAvatar name={d.name} className="block aspect-[4/3] h-auto w-full max-w-full rounded-xl" />
                                         )}
-                                        <h3 className="mt-3 font-bold">{d.name}</h3>
-                                        <p className="text-sm text-muted">{d.specialty}{d.department ? `, ${d.department}` : ""}</p>
+                                        <h3 className="mt-3 break-words font-bold">{d.name}</h3>
+                                        <p className="break-words text-sm text-muted">{d.specialty}{d.department ? `, ${d.department}` : ""}</p>
                                         <Link to="/appointments/new" className={`mt-3 w-full text-primary ${ghost}`}>Book with this doctor</Link>
                                     </article>
                                 ))}

@@ -82,32 +82,34 @@ export default function Invoice() {
                     )}
                 </div>
 
-                <table className="mt-6 w-full text-left text-sm">
-                    <thead className="border-b border-line text-muted">
-                        <tr>
-                            <th className="py-2 font-normal">Description</th>
-                            <th className="py-2 text-right font-normal">Qty</th>
-                            <th className="py-2 text-right font-normal">Unit price</th>
-                            <th className="py-2 text-right font-normal">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoice.items.map((it, i) => (
-                            <tr key={i} className="border-b border-line">
-                                <td className="py-3">{it.description}</td>
-                                <td className="py-3 text-right">{it.quantity}</td>
-                                <td className="py-3 text-right">{money(it.unitPrice, invoice.currency)}</td>
-                                <td className="py-3 text-right">{money(it.lineTotal, invoice.currency)}</td>
+                <div className="mt-6 overflow-x-auto">
+                    <table className="w-full min-w-[34rem] text-left text-sm">
+                        <thead className="border-b border-line text-muted">
+                            <tr>
+                                <th className="py-2 font-normal">Description</th>
+                                <th className="py-2 text-right font-normal">Qty</th>
+                                <th className="py-2 text-right font-normal">Unit price</th>
+                                <th className="py-2 text-right font-normal">Amount</th>
                             </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colSpan={3} className="pt-4 text-right font-extrabold">Total</td>
-                            <td className="pt-4 text-right text-lg font-extrabold">{money(invoice.total, invoice.currency)}</td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            {invoice.items.map((it, i) => (
+                                <tr key={i} className="border-b border-line">
+                                    <td className="py-3">{it.description}</td>
+                                    <td className="py-3 text-right">{it.quantity}</td>
+                                    <td className="py-3 text-right">{money(it.unitPrice, invoice.currency)}</td>
+                                    <td className="py-3 text-right">{money(it.lineTotal, invoice.currency)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colSpan={3} className="pt-4 text-right font-extrabold">Total</td>
+                                <td className="pt-4 text-right text-lg font-extrabold">{money(invoice.total, invoice.currency)}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
                 {invoice.notes && <p className="mt-4 text-sm text-muted">Notes: {invoice.notes}</p>}
                 {invoice.status === "paid" && (
