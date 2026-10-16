@@ -38,7 +38,13 @@ router.get("/overview", async (req, res) => {
     departments: departments.map((d) => ({ id: d._id, name: d.name, description: d.description })),
     doctors: profiles
       .filter((p) => p.user?.isActive && p.department?.isActive)
-      .map((p) => ({ id: p._id, name: p.user.name, specialty: p.specialty, department: p.department.name })),
+      .map((p) => ({
+        id: p._id,
+        name: p.user.name,
+        specialty: p.specialty,
+        department: p.department.name,
+        photo: p.photo ? `/uploads/doctors/${p.photo}` : "",
+      })),
   });
 });
 

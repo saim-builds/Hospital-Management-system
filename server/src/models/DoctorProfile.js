@@ -10,6 +10,7 @@ const doctorProfileSchema = new mongoose.Schema(
         endTime: { type: String, required: true },
         slotMinutes: { type: Number, required: true, enum: [15, 20, 30, 45, 60] },
         consultationFee: { type: Number, default: 0, min: 0 },
+        photo: { type: String, default: "" },
         isActive: { type: Boolean, default: true },
     },
     { timestamps: true }

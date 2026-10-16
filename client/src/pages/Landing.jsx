@@ -90,6 +90,45 @@ function Avatars({ names, extra }) {
     );
 }
 
+// Drawn doctor avatars, picked by name so each doctor keeps the same one.
+// Hair styles are short or neutral on purpose, since the data has no gender field.
+const SKIN = ["#E9C3A0", "#E2B891", "#D9AE88", "#C58F66", "#EBCBB0"];
+const HAIR = ["#2B2B33", "#1E1E24", "#4A3A33", "#241C1C", "#8A8A92"];
+const BG = ["#E4DDFB", "#EFEAFE", "#DCD2FA", "#E9E3FB"];
+
+function DoctorAvatar({ name, className = "" }) {
+    let h = 0;
+    for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    const skin = SKIN[h % SKIN.length];
+    const hair = HAIR[(h >> 3) % HAIR.length];
+    const bg = BG[(h >> 5) % BG.length];
+    const glasses = (h >> 7) % 3 === 0;
+    const style = (h >> 9) % 3; // 0 short, 1 side-parted, 2 cap-like
+    return (
+        <svg viewBox="0 0 250 190" className={className} role="img" aria-label={name} preserveAspectRatio="xMidYMax slice">
+            <rect width="250" height="190" fill={bg} />
+            <path d="M58 190c0-54 28-84 67-84s67 30 67 84z" fill="#fff" />
+            <path d="M100 118l25 42 25-42" fill="none" stroke="#6D4AE8" strokeWidth="5" strokeLinecap="round" />
+            <circle cx="150" cy="150" r="7" fill="none" stroke="#6D4AE8" strokeWidth="4" />
+            <rect x="112" y="92" width="26" height="22" rx="10" fill={skin} />
+            <circle cx="125" cy="78" r="31" fill={skin} />
+            {style === 0 && <path d="M93 72c2-26 18-36 32-36s30 10 32 36c-12-14-22-17-32-17s-20 3-32 17z" fill={hair} />}
+            {style === 1 && <path d="M92 76c0-30 16-42 34-42 20 0 32 14 30 42-6-16-14-22-26-24-14 0-28 6-38 24z" fill={hair} />}
+            {style === 2 && <path d="M94 66c4-24 18-32 31-32s27 8 31 32c-14-8-22-10-31-10s-17 2-31 10z" fill={hair} />}
+            <circle cx="114" cy="80" r="2.6" fill="#2B2B33" />
+            <circle cx="136" cy="80" r="2.6" fill="#2B2B33" />
+            <path d="M116 94q9 7 18 0" fill="none" stroke="#7A4A33" strokeWidth="2.2" strokeLinecap="round" />
+            {glasses && (
+                <g fill="none" stroke="#2B2B33" strokeWidth="2.4">
+                    <circle cx="114" cy="80" r="8" />
+                    <circle cx="136" cy="80" r="8" />
+                    <path d="M122 80h6" />
+                </g>
+            )}
+        </svg>
+    );
+}
+
 // Shows a photo from /public if it exists; otherwise a soft purple block.
 function Photo({ src, alt, className = "" }) {
     const [failed, setFailed] = useState(false);
@@ -280,9 +319,11 @@ export default function Landing() {
                                 )}
                                 {doctors.map((d, i) => (
                                     <article key={d.name + i} className="rounded-2xl border border-line bg-white p-3">
-                                        <div className={`grid h-44 place-items-center rounded-xl text-4xl font-bold text-white ${AVATAR_BG[i % AVATAR_BG.length]}`}>
-                                            {initials(d.name)}
-                                        </div>
+                                        {d.photo ? (
+                                            <img src={d.photo} alt={d.name} loading="lazy" className="h-44 w-full rounded-xl object-cover object-top" />
+                                        ) : (
+                                            <DoctorAvatar name={d.name} className="h-44 w-full rounded-xl" />
+                                        )}
                                         <h3 className="mt-3 font-bold">{d.name}</h3>
                                         <p className="text-sm text-muted">{d.specialty}{d.department ? `, ${d.department}` : ""}</p>
                                         <Link to="/appointments/new" className={`mt-3 w-full text-primary ${ghost}`}>Book with this doctor</Link>

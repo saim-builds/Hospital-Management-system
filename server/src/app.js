@@ -14,6 +14,7 @@ import visitRoutes from "./routes/visits.js";
 import dashboardRoutes from "./routes/dashboard.js";
 import billingRoutes from "./routes/billing.js";
 import publicRoutes from "./routes/public.js";
+import doctorPhotoRoutes, { UPLOAD_ROOT } from "./routes/doctorphotos.js";
 
 
 
@@ -46,6 +47,8 @@ app.use("/api/visits", visitRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/billing", billingRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/doctor-photos", doctorPhotoRoutes);
+app.use("/uploads", express.static(UPLOAD_ROOT, { index: false, dotfiles: "deny", maxAge: "1h" }));
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
 
 // Error handler: never leak internal details to the client

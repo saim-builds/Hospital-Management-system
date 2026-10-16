@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../api";
 import { useAuth } from "../context/AuthContext";
 import { inputCls, primaryBtn, ghostBtn } from "../ui";
+import DoctorPhoto from "../components/DoctorPhoto";
 
 const DAYS = [["Mon", 1], ["Tue", 2], ["Wed", 3], ["Thu", 4], ["Fri", 5], ["Sat", 6], ["Sun", 0]];
 const EMPTY = {
@@ -197,6 +198,7 @@ export default function Doctors() {
                         <div className="mt-3 text-sm">
                             {dayText(d.workingDays)}, {d.startTime} to {d.endTime}, {d.slotMinutes}-minute slots, fee {d.consultationFee}
                         </div>
+                        {isAdmin && <DoctorPhoto doctorId={d.id} name={d.name} />}
                     </li>
                 ))}
             </ul>
