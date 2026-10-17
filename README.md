@@ -133,6 +133,19 @@ Use these to try the app. They contain fake data only.
 
 The admin account is private.
 <img width="1919" height="912" alt="Screenshot 2026-10-17 165131" src="https://github.com/user-attachments/assets/d703b7a8-1c3b-41bb-84ab-ef75e2090324" />
+<img width="1919" height="918" alt="image" src="https://github.com/user-attachments/assets/4921f556-ba97-405f-88aa-2491f52b0899" />
+<img width="1919" height="907" alt="image" src="https://github.com/user-attachments/assets/64760a8f-dd17-4dde-9cb1-cd289833fee9" />
+<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/33777cf1-52fa-43bf-b197-14e3ea8a3bcb" />
+<img width="1917" height="892" alt="image" src="https://github.com/user-attachments/assets/cc4d7515-75b5-4904-ac57-8c680e95ff6f" />
+<img width="1919" height="905" alt="image" src="https://github.com/user-attachments/assets/7ee0ba92-45dd-467c-87af-c066099ea1f3" />
+<img width="1875" height="899" alt="image" src="https://github.com/user-attachments/assets/4038f3a6-b94a-405b-b87c-e27c30d0323e" />
+<img width="1910" height="879" alt="image" src="https://github.com/user-attachments/assets/c4a3a1a9-57b8-44b0-b58e-c49a93cf6426" />
+<img width="1901" height="909" alt="image" src="https://github.com/user-attachments/assets/23685167-c524-46b7-8f5a-e7e32fe41e71" />
+<img width="1436" height="911" alt="image" src="https://github.com/user-attachments/assets/a7ac5e33-5d75-4b06-85b0-755f1788c646" />
+<img width="1910" height="773" alt="image" src="https://github.com/user-attachments/assets/08166f5d-ce8b-4d75-a39e-0c8042c29224" />
+<img width="824" height="881" alt="image" src="https://github.com/user-attachments/assets/99efab97-d3f3-4a90-b6ca-be49c23855e9" />
+<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/37921d55-20a9-437b-ba59-f98ede63ce8d" />
+<img width="1919" height="603" alt="image" src="https://github.com/user-attachments/assets/59177382-a215-4b82-941a-e1c24006757d" />
 
 
 ## What I learned
